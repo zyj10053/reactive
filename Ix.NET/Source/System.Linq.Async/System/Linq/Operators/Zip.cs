@@ -20,9 +20,15 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(second));
 
 #if USE_ASYNC_ITERATOR
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core();
+
+            async IAsyncEnumerable<(TFirst, TSecond)> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return Create(Core);
 
             async IAsyncEnumerator<(TFirst, TSecond)> Core(CancellationToken cancellationToken)
+#endif
             {
                 await using (var e1 = first.GetConfiguredAsyncEnumerator(cancellationToken, false))
                 {
@@ -51,9 +57,15 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(selector));
 
 #if USE_ASYNC_ITERATOR
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core();
+
+            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return Create(Core);
 
             async IAsyncEnumerator<TResult> Core(CancellationToken cancellationToken)
+#endif
             {
                 await using (var e1 = first.GetConfiguredAsyncEnumerator(cancellationToken, false))
                 {
@@ -81,9 +93,15 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(selector));
 
 #if USE_ASYNC_ITERATOR
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core();
+
+            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return Create(Core);
 
             async IAsyncEnumerator<TResult> Core(CancellationToken cancellationToken)
+#endif
             {
                 await using (var e1 = first.GetConfiguredAsyncEnumerator(cancellationToken, false))
                 {

@@ -22,9 +22,15 @@ namespace System.Linq
             }
 
 #if USE_ASYNC_ITERATOR
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core();
+
+            async IAsyncEnumerable<TSource> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 Queue<TSource> queue;
 
