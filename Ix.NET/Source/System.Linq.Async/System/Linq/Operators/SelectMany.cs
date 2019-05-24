@@ -65,7 +65,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -74,7 +74,7 @@ namespace System.Linq
 
                     var inner = selector(element, index);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return subElement;
                     }
@@ -105,7 +105,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -114,7 +114,7 @@ namespace System.Linq
 
                     var inner = await selector(element, index).ConfigureAwait(false);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return subElement;
                     }
@@ -146,7 +146,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -155,7 +155,7 @@ namespace System.Linq
 
                     var inner = await selector(element, index, cancellationToken).ConfigureAwait(false);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return subElement;
                     }
@@ -187,11 +187,11 @@ namespace System.Linq
             async IAsyncEnumerator<TResult> Core(CancellationToken cancellationToken)
 #endif
             {
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     var inner = collectionSelector(element);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return resultSelector(element, subElement);
                     }
@@ -222,11 +222,11 @@ namespace System.Linq
             async IAsyncEnumerator<TResult> Core(CancellationToken cancellationToken)
 #endif
             {
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     var inner = await collectionSelector(element).ConfigureAwait(false);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return await resultSelector(element, subElement).ConfigureAwait(false);
                     }
@@ -258,11 +258,11 @@ namespace System.Linq
             async IAsyncEnumerator<TResult> Core(CancellationToken cancellationToken)
 #endif
             {
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     var inner = await collectionSelector(element, cancellationToken).ConfigureAwait(false);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return await resultSelector(element, subElement, cancellationToken).ConfigureAwait(false);
                     }
@@ -296,7 +296,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -305,7 +305,7 @@ namespace System.Linq
 
                     var inner = collectionSelector(element, index);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return resultSelector(element, subElement);
                     }
@@ -338,7 +338,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -347,7 +347,7 @@ namespace System.Linq
 
                     var inner = await collectionSelector(element, index).ConfigureAwait(false);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return await resultSelector(element, subElement).ConfigureAwait(false);
                     }
@@ -381,7 +381,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -390,7 +390,7 @@ namespace System.Linq
 
                     var inner = await collectionSelector(element, index, cancellationToken).ConfigureAwait(false);
 
-                    await foreach (var subElement in AsyncEnumerableExtensions.WithCancellation(inner, cancellationToken).ConfigureAwait(false))
+                    await foreach (var subElement in inner.WithCancellation(cancellationToken).ConfigureAwait(false))
                     {
                         yield return await resultSelector(element, subElement, cancellationToken).ConfigureAwait(false);
                     }
@@ -458,7 +458,7 @@ namespace System.Linq
                 {
                     var count = 0;
 
-                    await foreach (var element in AsyncEnumerableExtensions.WithCancellation(_source, _cancellationToken).ConfigureAwait(false))
+                    await foreach (var element in _source.WithCancellation(_cancellationToken).ConfigureAwait(false))
                     {
                         checked
                         {
@@ -483,7 +483,7 @@ namespace System.Linq
             {
                 var list = new List<TResult>();
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(_source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in _source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     var items = _selector(element);
 
@@ -597,7 +597,7 @@ namespace System.Linq
                 {
                     var count = 0;
 
-                    await foreach (var element in AsyncEnumerableExtensions.WithCancellation(_source, _cancellationToken).ConfigureAwait(false))
+                    await foreach (var element in _source.WithCancellation(_cancellationToken).ConfigureAwait(false))
                     {
                         var items = await _selector(element).ConfigureAwait(false);
 
@@ -624,7 +624,7 @@ namespace System.Linq
             {
                 var list = new List<TResult>();
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(_source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in _source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     var items = await _selector(element).ConfigureAwait(false);
 
@@ -739,7 +739,7 @@ namespace System.Linq
                 {
                     var count = 0;
 
-                    await foreach (var element in AsyncEnumerableExtensions.WithCancellation(_source, _cancellationToken).ConfigureAwait(false))
+                    await foreach (var element in _source.WithCancellation(_cancellationToken).ConfigureAwait(false))
                     {
                         var items = await _selector(element, _cancellationToken).ConfigureAwait(false);
 
@@ -766,7 +766,7 @@ namespace System.Linq
             {
                 var list = new List<TResult>();
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(_source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in _source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     var items = await _selector(element, cancellationToken).ConfigureAwait(false);
 

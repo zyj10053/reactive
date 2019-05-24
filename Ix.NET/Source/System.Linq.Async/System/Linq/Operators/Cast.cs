@@ -34,7 +34,7 @@ namespace System.Linq
             async IAsyncEnumerator<TResult> Core(CancellationToken cancellationToken)
 #endif
             {
-                await foreach (var obj in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var obj in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     yield return (TResult)obj;
                 }

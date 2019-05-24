@@ -49,7 +49,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -122,7 +122,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
@@ -158,7 +158,7 @@ namespace System.Linq
             {
                 var index = -1;
 
-                await foreach (var element in AsyncEnumerableExtensions.WithCancellation(source, cancellationToken).ConfigureAwait(false))
+                await foreach (var element in source.WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
                     checked
                     {
