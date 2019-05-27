@@ -17,9 +17,15 @@ namespace System.Linq
             if (selector == null)
                 throw Error.ArgumentNull(nameof(selector));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(source, selector);
+
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, IAsyncEnumerable<TSource>> selector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 var queue = new Queue<IAsyncEnumerable<TSource>>();
 
@@ -44,9 +50,15 @@ namespace System.Linq
             if (selector == null)
                 throw Error.ArgumentNull(nameof(selector));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(source, selector);
+
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, ValueTask<IAsyncEnumerable<TSource>>> selector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 var queue = new Queue<IAsyncEnumerable<TSource>>();
 
@@ -72,9 +84,15 @@ namespace System.Linq
             if (selector == null)
                 throw Error.ArgumentNull(nameof(selector));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(source, selector);
+
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, ValueTask<IAsyncEnumerable<TSource>>> selector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 var queue = new Queue<IAsyncEnumerable<TSource>>();
 

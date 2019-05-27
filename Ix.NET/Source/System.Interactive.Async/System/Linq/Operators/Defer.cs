@@ -15,9 +15,15 @@ namespace System.Linq
             if (factory == null)
                 throw Error.ArgumentNull(nameof(factory));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(factory);
+
+            static async IAsyncEnumerable<TSource> Core(Func<IAsyncEnumerable<TSource>> factory, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 await foreach (var item in factory().WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
@@ -31,9 +37,15 @@ namespace System.Linq
             if (factory == null)
                 throw Error.ArgumentNull(nameof(factory));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(factory);
+
+            static async IAsyncEnumerable<TSource> Core(Func<Task<IAsyncEnumerable<TSource>>> factory, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 await foreach (var item in (await factory().ConfigureAwait(false)).WithCancellation(cancellationToken).ConfigureAwait(false))
                 {
@@ -48,9 +60,15 @@ namespace System.Linq
             if (factory == null)
                 throw Error.ArgumentNull(nameof(factory));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(factory);
+
+            static async IAsyncEnumerable<TSource> Core(Func<CancellationToken, Task<IAsyncEnumerable<TSource>>> factory, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 await foreach (var item in (await factory(cancellationToken).ConfigureAwait(false)).WithCancellation(cancellationToken).ConfigureAwait(false))
                 {

@@ -94,9 +94,15 @@ namespace System.Linq
         {
             comparer ??= EqualityComparer<TSource>.Default;
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(source, comparer);
+
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, IEqualityComparer<TSource> comparer, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
 
@@ -129,9 +135,15 @@ namespace System.Linq
         {
             comparer ??= EqualityComparer<TKey>.Default;
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(source, keySelector, comparer);
+
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
 
@@ -168,9 +180,15 @@ namespace System.Linq
         {
             comparer ??= EqualityComparer<TKey>.Default;
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(source, keySelector, comparer);
+
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, ValueTask<TKey>> keySelector, IEqualityComparer<TSource> comparer, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
 
@@ -208,9 +226,15 @@ namespace System.Linq
         {
             comparer ??= EqualityComparer<TKey>.Default;
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(source, keySelector, comparer);
+
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, ValueTask<TKey>> keySelector, IEqualityComparer<TSource> comparer, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
 

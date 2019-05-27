@@ -19,9 +19,15 @@ namespace System.Linq
             if (enumerableFactory == null)
                 throw Error.ArgumentNull(nameof(enumerableFactory));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(resourceFactory, enumerableFactory);
+
+            static async IAsyncEnumerable<TSource> Core(Func<TResource> resourceFactory, Func<TResource, IAsyncEnumerable<TSource>> enumerableFactory, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 using var resource = resourceFactory();
 
@@ -39,9 +45,15 @@ namespace System.Linq
             if (enumerableFactory == null)
                 throw Error.ArgumentNull(nameof(enumerableFactory));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(resourceFactory, enumerableFactory);
+
+            static async IAsyncEnumerable<TSource> Core(Func<Task<TResource>> resourceFactory, Func<TResource, ValueTask<IAsyncEnumerable<TSource>>> enumerableFactory, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 using var resource = await resourceFactory().ConfigureAwait(false);
 
@@ -60,9 +72,15 @@ namespace System.Linq
             if (enumerableFactory == null)
                 throw Error.ArgumentNull(nameof(enumerableFactory));
 
+#if HAS_ASYNC_ENUMERABLE_CANCELLATION
+            return Core(resourceFactory, enumerableFactory);
+
+            static async IAsyncEnumerable<TSource> Core(Func<CancellationToken, Task<TResource>> resourceFactory, Func<TResource, CancellationToken, ValueTask<IAsyncEnumerable<TSource>>> enumerableFactory, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+#else
             return AsyncEnumerable.Create(Core);
 
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
+#endif
             {
                 using var resource = await resourceFactory(cancellationToken).ConfigureAwait(false);
 
