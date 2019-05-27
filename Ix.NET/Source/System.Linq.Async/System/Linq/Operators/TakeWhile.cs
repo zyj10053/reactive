@@ -18,9 +18,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(predicate));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, predicate);
 
-            async IAsyncEnumerable<TSource> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, bool> predicate, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -47,9 +47,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(predicate));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, predicate);
 
-            async IAsyncEnumerable<TSource> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, bool> predicate, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -83,9 +83,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(predicate));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, predicate);
 
-            async IAsyncEnumerable<TSource> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, ValueTask<bool>> predicate, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -113,9 +113,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(predicate));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, predicate);
 
-            async IAsyncEnumerable<TSource> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, ValueTask<bool>> predicate, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -143,9 +143,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(predicate));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, predicate);
 
-            async IAsyncEnumerable<TSource> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, ValueTask<bool>> predicate, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -180,9 +180,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(predicate));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, predicate);
 
-            async IAsyncEnumerable<TSource> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TSource> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, ValueTask<bool>> predicate, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 

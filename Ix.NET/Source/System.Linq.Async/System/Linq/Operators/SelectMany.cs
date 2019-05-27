@@ -53,9 +53,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(selector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, selector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, IAsyncEnumerable<TResult>> selector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -89,9 +89,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(selector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, selector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, ValueTask<IAsyncEnumerable<TResult>>> selector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -126,9 +126,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(selector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, selector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, ValueTask<IAsyncEnumerable<TResult>>> selector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -165,9 +165,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(resultSelector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, collectionSelector, resultSelector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, IAsyncEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -196,9 +196,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(resultSelector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, collectionSelector, resultSelector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, ValueTask<IAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, ValueTask<TResult>> resultSelector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -228,9 +228,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(resultSelector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, collectionSelector, resultSelector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, ValueTask<IAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, CancellationToken, ValueTask<TResult>> resultSelector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -260,9 +260,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(resultSelector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, collectionSelector, resultSelector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, IAsyncEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -298,9 +298,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(resultSelector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, collectionSelector, resultSelector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, ValueTask<IAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, ValueTask<TResult>> resultSelector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
@@ -337,9 +337,9 @@ namespace System.Linq
                 throw Error.ArgumentNull(nameof(resultSelector));
 
 #if HAS_ASYNC_ENUMERABLE_CANCELLATION
-            return Core();
+            return Core(source, collectionSelector, resultSelector);
 
-            async IAsyncEnumerable<TResult> Core([System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
+            static async IAsyncEnumerable<TResult> Core(IAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, ValueTask<IAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, CancellationToken, ValueTask<TResult>> resultSelector, [System.Runtime.CompilerServices.EnumeratorCancellation]CancellationToken cancellationToken = default)
 #else
             return Create(Core);
 
