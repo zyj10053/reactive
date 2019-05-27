@@ -27,23 +27,22 @@ namespace System.Linq
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
 #endif
             {
-                await using (var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false))
+                await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
+
+                while (await e.MoveNextAsync())
                 {
-                    while (await e.MoveNextAsync())
+                    var element = e.Current;
+
+                    if (!predicate(element))
                     {
-                        var element = e.Current;
+                        yield return element;
 
-                        if (!predicate(element))
+                        while (await e.MoveNextAsync())
                         {
-                            yield return element;
-
-                            while (await e.MoveNextAsync())
-                            {
-                                yield return e.Current;
-                            }
-
-                            yield break;
+                            yield return e.Current;
                         }
+
+                        yield break;
                     }
                 }
             }
@@ -66,30 +65,28 @@ namespace System.Linq
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
 #endif
             {
-                await using (var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false))
+                await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
+                var index = -1;
+
+                while (await e.MoveNextAsync())
                 {
-                    var index = -1;
-
-                    while (await e.MoveNextAsync())
+                    checked
                     {
-                        checked
+                        index++;
+                    }
+
+                    var element = e.Current;
+
+                    if (!predicate(element, index))
+                    {
+                        yield return element;
+
+                        while (await e.MoveNextAsync())
                         {
-                            index++;
+                            yield return e.Current;
                         }
 
-                        var element = e.Current;
-
-                        if (!predicate(element, index))
-                        {
-                            yield return element;
-
-                            while (await e.MoveNextAsync())
-                            {
-                                yield return e.Current;
-                            }
-
-                            yield break;
-                        }
+                        yield break;
                     }
                 }
             }
@@ -112,23 +109,22 @@ namespace System.Linq
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
 #endif
             {
-                await using (var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false))
+                await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
+
+                while (await e.MoveNextAsync())
                 {
-                    while (await e.MoveNextAsync())
+                    var element = e.Current;
+
+                    if (!await predicate(element).ConfigureAwait(false))
                     {
-                        var element = e.Current;
+                        yield return element;
 
-                        if (!await predicate(element).ConfigureAwait(false))
+                        while (await e.MoveNextAsync())
                         {
-                            yield return element;
-
-                            while (await e.MoveNextAsync())
-                            {
-                                yield return e.Current;
-                            }
-
-                            yield break;
+                            yield return e.Current;
                         }
+
+                        yield break;
                     }
                 }
             }
@@ -152,23 +148,22 @@ namespace System.Linq
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
 #endif
             {
-                await using (var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false))
+                await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
+
+                while (await e.MoveNextAsync())
                 {
-                    while (await e.MoveNextAsync())
+                    var element = e.Current;
+
+                    if (!await predicate(element, cancellationToken).ConfigureAwait(false))
                     {
-                        var element = e.Current;
+                        yield return element;
 
-                        if (!await predicate(element, cancellationToken).ConfigureAwait(false))
+                        while (await e.MoveNextAsync())
                         {
-                            yield return element;
-
-                            while (await e.MoveNextAsync())
-                            {
-                                yield return e.Current;
-                            }
-
-                            yield break;
+                            yield return e.Current;
                         }
+
+                        yield break;
                     }
                 }
             }
@@ -192,30 +187,28 @@ namespace System.Linq
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
 #endif
             {
-                await using (var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false))
+                await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
+                var index = -1;
+
+                while (await e.MoveNextAsync())
                 {
-                    var index = -1;
-
-                    while (await e.MoveNextAsync())
+                    checked
                     {
-                        checked
+                        index++;
+                    }
+
+                    var element = e.Current;
+
+                    if (!await predicate(element, index).ConfigureAwait(false))
+                    {
+                        yield return element;
+
+                        while (await e.MoveNextAsync())
                         {
-                            index++;
+                            yield return e.Current;
                         }
 
-                        var element = e.Current;
-
-                        if (!await predicate(element, index).ConfigureAwait(false))
-                        {
-                            yield return element;
-
-                            while (await e.MoveNextAsync())
-                            {
-                                yield return e.Current;
-                            }
-
-                            yield break;
-                        }
+                        yield break;
                     }
                 }
             }
@@ -239,30 +232,28 @@ namespace System.Linq
             async IAsyncEnumerator<TSource> Core(CancellationToken cancellationToken)
 #endif
             {
-                await using (var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false))
+                await using var e = source.GetConfiguredAsyncEnumerator(cancellationToken, false);
+                var index = -1;
+
+                while (await e.MoveNextAsync())
                 {
-                    var index = -1;
-
-                    while (await e.MoveNextAsync())
+                    checked
                     {
-                        checked
+                        index++;
+                    }
+
+                    var element = e.Current;
+
+                    if (!await predicate(element, index, cancellationToken).ConfigureAwait(false))
+                    {
+                        yield return element;
+
+                        while (await e.MoveNextAsync())
                         {
-                            index++;
+                            yield return e.Current;
                         }
 
-                        var element = e.Current;
-
-                        if (!await predicate(element, index, cancellationToken).ConfigureAwait(false))
-                        {
-                            yield return element;
-
-                            while (await e.MoveNextAsync())
-                            {
-                                yield return e.Current;
-                            }
-
-                            yield break;
-                        }
+                        yield break;
                     }
                 }
             }
