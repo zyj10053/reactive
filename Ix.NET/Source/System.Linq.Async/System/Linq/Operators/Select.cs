@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information. 
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,15 +17,12 @@ namespace System.Linq
             if (selector == null)
                 throw Error.ArgumentNull(nameof(selector));
 
-            switch (source)
+            return source switch
             {
-                case AsyncIterator<TSource> iterator:
-                    return iterator.Select(selector);
-                case IList<TSource> list:
-                    return new SelectIListIterator<TSource, TResult>(list, selector);
-            }
-
-            return new SelectEnumerableAsyncIterator<TSource, TResult>(source, selector);
+                AsyncIterator<TSource> iterator => iterator.Select(selector),
+                IList<TSource> list => new SelectIListIterator<TSource, TResult>(list, selector),
+                _ => new SelectEnumerableAsyncIterator<TSource, TResult>(source, selector),
+            };
         }
 
         public static IAsyncEnumerable<TResult> Select<TSource, TResult>(this IAsyncEnumerable<TSource> source, Func<TSource, int, TResult> selector)
@@ -67,15 +63,12 @@ namespace System.Linq
             if (selector == null)
                 throw Error.ArgumentNull(nameof(selector));
 
-            switch (source)
+            return source switch
             {
-                case AsyncIterator<TSource> iterator:
-                    return iterator.Select(selector);
-                case IList<TSource> list:
-                    return new SelectIListIteratorWithTask<TSource, TResult>(list, selector);
-            }
-
-            return new SelectEnumerableAsyncIteratorWithTask<TSource, TResult>(source, selector);
+                AsyncIterator<TSource> iterator => iterator.Select(selector),
+                IList<TSource> list => new SelectIListIteratorWithTask<TSource, TResult>(list, selector),
+                _ => new SelectEnumerableAsyncIteratorWithTask<TSource, TResult>(source, selector),
+            };
         }
 
 #if !NO_DEEP_CANCELLATION
@@ -86,15 +79,12 @@ namespace System.Linq
             if (selector == null)
                 throw Error.ArgumentNull(nameof(selector));
 
-            switch (source)
+            return source switch
             {
-                case AsyncIterator<TSource> iterator:
-                    return iterator.Select(selector);
-                case IList<TSource> list:
-                    return new SelectIListIteratorWithTaskAndCancellation<TSource, TResult>(list, selector);
-            }
-
-            return new SelectEnumerableAsyncIteratorWithTaskAndCancellation<TSource, TResult>(source, selector);
+                AsyncIterator<TSource> iterator => iterator.Select(selector),
+                IList<TSource> list => new SelectIListIteratorWithTaskAndCancellation<TSource, TResult>(list, selector),
+                _ => new SelectEnumerableAsyncIteratorWithTaskAndCancellation<TSource, TResult>(source, selector),
+            };
         }
 #endif
 
@@ -171,9 +161,6 @@ namespace System.Linq
 
             public SelectEnumerableAsyncIterator(IAsyncEnumerable<TSource> source, Func<TSource, TResult> selector)
             {
-                Debug.Assert(source != null);
-                Debug.Assert(selector != null);
-
                 _source = source;
                 _selector = selector;
             }
@@ -231,9 +218,6 @@ namespace System.Linq
 
             public SelectIListIterator(IList<TSource> source, Func<TSource, TResult> selector)
             {
-                Debug.Assert(source != null);
-                Debug.Assert(selector != null);
-
                 _source = source;
                 _selector = selector;
             }
@@ -348,9 +332,6 @@ namespace System.Linq
 
             public SelectEnumerableAsyncIteratorWithTask(IAsyncEnumerable<TSource> source, Func<TSource, ValueTask<TResult>> selector)
             {
-                Debug.Assert(source != null);
-                Debug.Assert(selector != null);
-
                 _source = source;
                 _selector = selector;
             }
@@ -410,9 +391,6 @@ namespace System.Linq
 
             public SelectEnumerableAsyncIteratorWithTaskAndCancellation(IAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, ValueTask<TResult>> selector)
             {
-                Debug.Assert(source != null);
-                Debug.Assert(selector != null);
-
                 _source = source;
                 _selector = selector;
             }
@@ -476,9 +454,6 @@ namespace System.Linq
 
             public SelectIListIteratorWithTask(IList<TSource> source, Func<TSource, ValueTask<TResult>> selector)
             {
-                Debug.Assert(source != null);
-                Debug.Assert(selector != null);
-
                 _source = source;
                 _selector = selector;
             }
@@ -598,9 +573,6 @@ namespace System.Linq
 
             public SelectIListIteratorWithTaskAndCancellation(IList<TSource> source, Func<TSource, CancellationToken, ValueTask<TResult>> selector)
             {
-                Debug.Assert(source != null);
-                Debug.Assert(selector != null);
-
                 _source = source;
                 _selector = selector;
             }
